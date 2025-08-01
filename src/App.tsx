@@ -84,22 +84,32 @@ function App() {
           {searchAttempted && (
             <section className="py-12 bg-gray-50">
               <div className="container mx-auto px-4">
-                {searchResult ? (
-                  <ResultCard student={searchResult} />
-                ) : (
-                  <div className="max-w-md mx-auto text-center bg-white p-8 rounded-2xl shadow-lg">
-                    <div className="text-6xl mb-4">😔</div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">
-                      لم يتم العثور على نتيجة
+                <div className="max-w-2xl mx-auto text-center">
+                  <div className="bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 border-2 border-orange-200 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300">
+                    <div className="mb-6">
+                      <div className="relative inline-block">
+                        <div className="text-6xl mb-4 animate-bounce-slow">⏳</div>
+                        <div className="absolute -top-1 -right-1 text-2xl animate-spin-slow">✨</div>
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-3xl font-bold text-transparent bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 bg-clip-text mb-4 animate-pulse">
+                      المسابقة لم تبدأ بعد
                     </h3>
-                    <p className="text-gray-600">
-                      تأكد من كتابة الاسم أو الرقم بشكل صحيح وحاول مرة أخرى
-                    </p>
+                    
+                    <div className="text-lg text-gray-700 mb-6 space-y-2">
+                      <p>🔍 البحث عن النتائج غير متاح حالياً</p>
+                      <p>📅 سيتم تفعيل البحث فور انتهاء المسابقة</p>
+                      <p>⭐ ترقبوا الإعلان عن النتائج قريباً</p>
+                    </div>
+                    
+                    <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-4">
+                      <p className="text-blue-800 font-semibold">💡 نصيحة: استعد جيداً للمسابقة وراجع الأجزاء المطلوبة</p>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             </section>
-          )}
           
           <StatsSection stats={stats} />
           <AllResultsSection students={rankedStudents} />

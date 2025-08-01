@@ -15,12 +15,9 @@ export const studentsData: Student[] = [
   { id: 2006, name: "سارة أحمد", category: "ثمانية أجزاء", grade: 93 },
   { id: 2007, name: "محمد حسين", category: "عشر أجزاء", grade: 87 },
   { id: 2008, name: "زينب علي", category: "خمس عشر أجزاء", grade: 89 },
-  { id: 2009, name: "خالد محمود", category: "عشرون جزء", grade: 92 },
   { id: 2010, name: "هدى سالم", category: "خمس وعشرون جزء", grade: 96 },
-  { id: 2011, name: "عبدالرحمن يوسف", category: "ثلاثون جزء", grade: 98 },
   { id: 2012, name: "آية محمد", category: "ثلاثة أجزاء", grade: 84 },
   { id: 2013, name: "إبراهيم عبدالله", category: "خمسة أجزاء", grade: 88 },
-  { id: 2014, name: "رقية حسن", category: "ثمانية أجزاء", grade: 90 },
   { id: 2015, name: "عثمان الأحمد", category: "عشر أجزاء", grade: 85 }
 ];
 

@@ -17,15 +17,8 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ students, onResult
       return;
     }
 
-    const student = students.find(s => {
-      if (searchType === 'name') {
-        return s.name.toLowerCase().includes(searchTerm.toLowerCase().trim());
-      } else {
-        return s.id.toString() === searchTerm.trim();
-      }
-    });
-
-    onResult(student || null);
+    // Always return null to show "contest not started" message
+    onResult(null);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

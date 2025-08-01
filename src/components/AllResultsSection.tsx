@@ -9,12 +9,6 @@ interface AllResultsSectionProps {
 
 export const AllResultsSection: React.FC<AllResultsSectionProps> = ({ students }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  
-  const categories = [...new Set(students.map(s => s.category))];
-  const filteredStudents = selectedCategory === 'all' 
-    ? students 
-    : students.filter(s => s.category === selectedCategory);
 
   return (
     <section className="bg-white py-16">
@@ -22,7 +16,7 @@ export const AllResultsSection: React.FC<AllResultsSectionProps> = ({ students }
         <div className="text-center mb-8">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center gap-3 mx-auto font-semibold text-lg"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 hover:scale-105 hover:shadow-2xl transition-all duration-300 flex items-center gap-3 mx-auto font-semibold text-lg transform"
           >
             <List className="w-6 h-6" />
             عرض جميع النتائج
@@ -31,90 +25,50 @@ export const AllResultsSection: React.FC<AllResultsSectionProps> = ({ students }
         </div>
 
         {isExpanded && (
-          <div className="animate-fadeIn">
-            {/* Filter section */}
-            <div className="bg-gray-50 p-6 rounded-xl mb-8">
-              <div className="flex items-center gap-4 justify-center flex-wrap">
-                <Filter className="w-5 h-5 text-gray-600" />
-                <button
-                  onClick={() => setSelectedCategory('all')}
-                  className={`px-4 py-2 rounded-full transition-all ${
-                    selectedCategory === 'all' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-white text-blue-600 hover:bg-blue-50'
-                  }`}
-                >
-                  جميع الفئات
-                </button>
-                {categories.map(category => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-full transition-all ${
-                      selectedCategory === category 
-                        ? 'bg-blue-600 text-white' 
-                        : 'bg-white text-blue-600 hover:bg-blue-50'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Results table */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                    <tr>
-                      <th className="px-6 py-4 text-center">الترتيب</th>
-                      <th className="px-6 py-4 text-center">الاسم</th>
-                      <th className="px-6 py-4 text-center">رقم الطالب</th>
-                      <th className="px-6 py-4 text-center">الفئة</th>
-                      <th className="px-6 py-4 text-center">الدرجة</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredStudents.slice(0, 50).map((student, index) => (
-                      <tr key={student.id} className="border-b hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4 text-center">
-                          <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-bold ${
-                            student.rank === 1 ? 'bg-yellow-100 text-yellow-800' :
-                            student.rank === 2 ? 'bg-gray-100 text-gray-800' :
-                            student.rank === 3 ? 'bg-amber-100 text-amber-800' :
-                            'bg-blue-100 text-blue-800'
-                          }`}>
-                            {student.rank}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-center font-semibold text-gray-800">
-                          {student.name}
-                        </td>
-                        <td className="px-6 py-4 text-center text-gray-600">
-                          {student.id}
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getCategoryColor(student.category)}`}>
-                            {student.category}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          <span className={`inline-block px-3 py-1 rounded-lg font-bold text-lg ${getGradeColor(student.grade)}`}>
-                            {student.grade}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+          <div className="animate-fadeIn max-w-4xl mx-auto">
+            {/* Contest not started message */}
+            <div className="bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 border-2 border-orange-200 rounded-3xl p-12 text-center shadow-2xl">
+              <div className="mb-8">
+                <div className="relative inline-block">
+                  <div className="text-8xl mb-4 animate-bounce-slow">📚</div>
+                  <div className="absolute -top-2 -right-2 text-3xl animate-spin-slow">✨</div>
+                  <div className="absolute -bottom-2 -left-2 text-2xl animate-pulse">🌟</div>
+                </div>
               </div>
               
-              {filteredStudents.length > 50 && (
-                <div className="bg-gray-50 p-4 text-center text-gray-600">
-                  عرض أول 50 نتيجة من أصل {filteredStudents.length} نتيجة
+              <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 bg-clip-text mb-6 animate-pulse">
+                المسابقة لم تبدأ بعد
+              </h2>
+              
+              <div className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
+                <p className="mb-4">🕐 نحن نستعد حالياً لإطلاق مسابقة المولد النبوي الشريف</p>
+                <p className="mb-4">📋 سيتم الإعلان عن النتائج فور انتهاء المسابقة</p>
+                <p>⏰ ترقبوا الإعلان عن موعد بدء المسابقة قريباً</p>
+              </div>
+              
+              <div className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 rounded-2xl p-6 mb-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">ما يمكنك فعله الآن:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
+                  <div className="bg-white/70 p-4 rounded-xl hover:bg-white hover:scale-105 transition-all duration-300 cursor-pointer">
+                    <div className="text-2xl mb-2">📅</div>
+                    <p className="font-semibold text-gray-800">تابع جدول الاختبارات</p>
+                    <p className="text-sm text-gray-600">للاطلاع على مواعيد الاختبارات القادمة</p>
+                  </div>
+                  <div className="bg-white/70 p-4 rounded-xl hover:bg-white hover:scale-105 transition-all duration-300 cursor-pointer">
+                    <div className="text-2xl mb-2">📚</div>
+                    <p className="font-semibold text-gray-800">استعد للمسابقة</p>
+                    <p className="text-sm text-gray-600">راجع الأجزاء المطلوبة واستعد جيداً</p>
+                  </div>
                 </div>
-              )}
+              </div>
+              
+              <div className="text-lg text-gray-600">
+                <p className="mb-2">للاستفسار والمتابعة:</p>
+                <div className="flex flex-wrap justify-center gap-4 text-sm">
+                  <span className="bg-white/50 px-4 py-2 rounded-full">📧 tarekaboya2019@gmail.com</span>
+                  <span className="bg-white/50 px-4 py-2 rounded-full">📱 +0155 918 1558</span>
+                </div>
+              </div>
             </div>
           </div>
         )}
