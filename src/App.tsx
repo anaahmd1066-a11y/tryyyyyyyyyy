@@ -104,7 +104,6 @@ function App() {
           <StatsSection stats={stats} />
           <AllResultsSection students={rankedStudents} />
           <Footer />
-          </div>
         </div>
       )}
       
