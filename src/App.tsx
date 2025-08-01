@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
+import { MainPage } from './components/MainPage';
 import { ExamSchedule } from './components/ExamSchedule';
 import { SearchSection } from './components/SearchSection';
 import { ResultCard } from './components/ResultCard';
@@ -13,7 +14,7 @@ import { Student } from './types';
 function App() {
   const [searchResult, setSearchResult] = useState<Student | null>(null);
   const [searchAttempted, setSearchAttempted] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'results' | 'schedule'>('results');
+  const [currentPage, setCurrentPage] = useState<'main' | 'results' | 'schedule'>('main');
   
   const stats = calculateStats(rankedStudents);
 
@@ -22,40 +23,58 @@ function App() {
     setSearchAttempted(true);
   };
 
+  const handleNavigation = (page: 'results' | 'schedule') => {
+    setCurrentPage(page);
+    setSearchResult(null);
+    setSearchAttempted(false);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50" dir="rtl">
-      <Header />
-      
-      {/* Navigation */}
-      <nav className="bg-white shadow-md py-4">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-center gap-4">
-            <button
-              onClick={() => setCurrentPage('results')}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all ${
-                currentPage === 'results'
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              النتائج
-            </button>
-            <button
-              onClick={() => setCurrentPage('schedule')}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all ${
-                currentPage === 'schedule'
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              جدول الاختبارات
-            </button>
-          </div>
-        </div>
-      </nav>
-      
-      {currentPage === 'results' ? (
+    <div className="min-h-screen" dir="rtl">
+      {currentPage === 'main' ? (
+        <MainPage onNavigate={handleNavigation} />
+      ) : (
         <>
+          <Header />
+          
+          {/* Navigation */}
+          <nav className="bg-white shadow-md py-4">
+            <div className="container mx-auto px-4">
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => setCurrentPage('main')}
+                  className="px-6 py-3 rounded-xl font-semibold transition-all bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  الصفحة الرئيسية
+                </button>
+                <button
+                  onClick={() => setCurrentPage('results')}
+                  className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+                    currentPage === 'results'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  النتائج
+                </button>
+                <button
+                  onClick={() => setCurrentPage('schedule')}
+                  className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+                    currentPage === 'schedule'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  جدول الاختبارات
+                </button>
+              </div>
+            </div>
+          </nav>
+        </>
+      )}
+      
+      {currentPage === 'results' && (
+        <div className="bg-gray-50 min-h-screen">
           <SearchSection 
             students={rankedStudents} 
             onResult={handleSearchResult}
@@ -84,12 +103,17 @@ function App() {
           
           <StatsSection stats={stats} />
           <AllResultsSection students={rankedStudents} />
-        </>
-      ) : (
-        <ExamSchedule />
+          <Footer />
+          </div>
+        </div>
       )}
       
-      <Footer />
+      {currentPage === 'schedule' && (
+        <div className="bg-gray-50 min-h-screen">
+        <ExamSchedule />
+          <Footer />
+        </div>
+      )}
     </div>
   );
 }
